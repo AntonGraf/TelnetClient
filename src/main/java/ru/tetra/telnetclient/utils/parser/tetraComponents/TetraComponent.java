@@ -19,21 +19,6 @@ public interface TetraComponent {
     ArrayList<Component> getAllComponents();
 
     /**
-     * Выводит список аварий
-     */
-    void printAlarms();
-
-    /**
-     * Обновляет список аварий
-     */
-    void updateAlarm();
-
-    /**
-     * Получает список доступных аварий
-     */
-    void readAlarms();
-
-    /**
      * Возвращает имя компонента
      * @return
      */

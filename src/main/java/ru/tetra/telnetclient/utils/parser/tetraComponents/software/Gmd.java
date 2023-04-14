@@ -1,10 +1,15 @@
 package ru.tetra.telnetclient.utils.parser.tetraComponents.software;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * Create by graf-anton on 29.12.2020
  *
  * Компонент компонент мониторинга GMD
  */
+@ToString
+@EqualsAndHashCode
 public class Gmd extends Component{
 
     //SNMP-порт по умолчанию

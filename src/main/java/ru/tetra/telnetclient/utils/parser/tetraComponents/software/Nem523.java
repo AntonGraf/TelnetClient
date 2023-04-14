@@ -1,10 +1,15 @@
 package ru.tetra.telnetclient.utils.parser.tetraComponents.software;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * Create by graf-anton on 29.12.2020
  *
  * Компонент управления сетевый оборудование Nem523
  */
+@ToString
+@EqualsAndHashCode
 public class Nem523 extends Component{
 
     //SNMP-порт по умолчанию

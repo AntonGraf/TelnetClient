@@ -1,8 +1,15 @@
 package ru.tetra.telnetclient.utils.parser.tetraComponents;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 /**
  * Create by graf-anton on 12.03.2021
  */
+@ToString
+@Getter
+@EqualsAndHashCode
 public class Database {
 
     //Имя БД

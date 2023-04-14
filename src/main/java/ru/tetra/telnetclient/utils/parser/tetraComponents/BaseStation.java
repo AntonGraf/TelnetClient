@@ -1,5 +1,7 @@
 package ru.tetra.telnetclient.utils.parser.tetraComponents;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.tetra.telnetclient.utils.parser.enums.NetworkElementType;
 import ru.tetra.telnetclient.utils.parser.tetraComponents.software.Component;
 
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 /**
  * Create by graf-anton on 12.03.2021
  */
+@ToString
+@EqualsAndHashCode
 public class BaseStation extends NetworkElement  implements TetraComponent{
 
     //Программные компоненты
@@ -54,64 +58,8 @@ public class BaseStation extends NetworkElement  implements TetraComponent{
         return componentArrayList;
     }
 
-    /**
-     *  Выводит список критичных аварий
-     */
-    public void printErrorAlarms() {
-
-        for(Component component : components) {
-            System.out.println("------" + component.getName() + "-------");
-            component.updateAlarms();
-            component.printErrorAlarmEvents();
-
-        }
-    }
-
-    public void printAlarms() {
-
-        for(Component component : components) {
-            System.out.println("------" + component.getName() + "-------");
-            component.updateAlarms();
-            component.printAlarmEvents();
-
-        }
-    }
-
-    public void updateAlarm(){
-
-        for(Component component : components) {
-
-            component.checkAvail();
-
-            if(component.isOnline()) {
-                component.updateAlarms();
-            }
-        }
-
-    }
-
-    public void readAlarms() {
-
-        for(Component component : components) {
-
-            component.checkAvail();
-
-            if(component.isOnline()) {
-                component.readAlarmEvents();
-            }
-        }
-    }
-
     @Override
     public NetworkElementType getElementType() {
         return NetworkElementType.BS;
-    }
-
-    @Override
-    public String toString() {
-        return "BaseStation{" +
-                "type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

@@ -1,5 +1,7 @@
 package ru.tetra.telnetclient.utils.parser.tetraComponents;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.tetra.telnetclient.utils.parser.enums.NetworkElementType;
 import ru.tetra.telnetclient.utils.parser.tetraComponents.software.Component;
 
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 /**
  * Create by graf-anton on 12.03.2021
  */
+@ToString
+@EqualsAndHashCode
 public class Mpu extends NetworkElement implements TetraComponent {
 
     //Список программных компонентов
@@ -22,22 +26,6 @@ public class Mpu extends NetworkElement implements TetraComponent {
     public ArrayList<Component> getAllComponents() {
         return softwareComponents;
     }
-
-    @Override
-    public void printAlarms() {
-
-    }
-
-    @Override
-    public void updateAlarm() {
-
-    }
-
-    @Override
-    public void readAlarms() {
-
-    }
-
 
     public String getName() {
         return name;

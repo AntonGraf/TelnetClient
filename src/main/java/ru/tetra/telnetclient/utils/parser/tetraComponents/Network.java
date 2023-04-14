@@ -31,11 +31,4 @@ public class Network {
     public String getName() {
         return name;
     }
-
-    @Override
-    public String toString() {
-        return "Network{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }
