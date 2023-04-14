@@ -1,9 +1,12 @@
 package ru.tetra.telnetclient.controllers;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tetra.telnetclient.services.PucService;
 import ru.tetra.telnetclient.utils.telnet.PucClient;
 
@@ -43,5 +46,10 @@ public class PucController {
     @GetMapping("/geAlarms")
     public ResponseEntity<List<String>> getPucAlarms(@RequestParam(name = "ip") String ip) {
         return ResponseEntity.ok(pucService.getPucAlarms(ip));
+    }
+
+    @PostMapping(value = "/importPuc", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Integer> importPuc(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(pucService.createPucClientFromFile(file));
     }
 }
