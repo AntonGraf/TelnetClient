@@ -11,6 +11,7 @@ import ru.tetra.telnetclient.services.PucService;
 import ru.tetra.telnetclient.utils.telnet.PucClient;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PucController {
@@ -43,7 +44,7 @@ public class PucController {
         return ResponseEntity.ok(pucService.getPucClients());
     }
 
-    @GetMapping("/geAlarms")
+    @GetMapping("/getAlarms")
     public ResponseEntity<List<String>> getPucAlarms(@RequestParam(name = "ip") String ip) {
         return ResponseEntity.ok(pucService.getPucAlarms(ip));
     }
@@ -51,5 +52,15 @@ public class PucController {
     @PostMapping(value = "/importPuc", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Integer> importPuc(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(pucService.createPucClientFromFile(file));
+    }
+
+    @GetMapping("/getAllPucsAlarms")
+    public ResponseEntity<Map<String,List<String>>> getAllPucsAlarms() {
+        return ResponseEntity.ok(pucService.getAllPucsAlarms());
+    }
+
+    @GetMapping("/getAllPucsIpAddressFirstTimeSource")
+    public ResponseEntity<Map<String, String>> getAllPucsIpAddressFirstTimeSource() {
+        return ResponseEntity.ok(pucService.getAllPucsIpAddressFirstTimeSource());
     }
 }

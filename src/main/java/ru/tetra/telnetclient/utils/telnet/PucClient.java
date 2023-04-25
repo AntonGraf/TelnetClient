@@ -59,10 +59,10 @@ public class PucClient implements AccessnetTelnetClient {
             readThread = new Thread(this::read);
             readThread.start();
             out = new PrintStream(telnetClient.getOutputStream());
-            connection = checkAnswer("BSC " + ip + " (" + port + ") >");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Не удается подключиться к " + ip);;
         }
+        connection = true;
     }
 
     @Override
@@ -76,10 +76,12 @@ public class PucClient implements AccessnetTelnetClient {
             connect();
         }
 
-        out.println(Commands.AUTHORIZATION.getCommand());
-        out.flush();
-        authorization = checkAnswer("User Level: 3");
-        messages.clear();
+        if (isConnected()) {
+            out.println(Commands.AUTHORIZATION.getCommand());
+            out.flush();
+            authorization = checkAnswer("User Level: 3");
+            messages.clear();
+        }
     }
 
     @Override
@@ -87,9 +89,11 @@ public class PucClient implements AccessnetTelnetClient {
         if (!isAuthorization()) {
             authorization();
         }
-
-        out.println(command);
-        out.flush();
+        if (isAuthorization()) {
+            messages.clear();
+            out.println(command);
+            out.flush();
+        }
     }
 
     @Override
@@ -109,6 +113,7 @@ public class PucClient implements AccessnetTelnetClient {
             while (!messages.isEmpty()) {
                 readMessage = messages.remove();
                 if (readMessage.contains(answer)) {
+                    readMessage = messages.remove();
                     return true;
                 }
             }
@@ -121,36 +126,15 @@ public class PucClient implements AccessnetTelnetClient {
         return false;
     }
 
-    public List<String> getCommandResult(String command, String successResult) {
+    public List<String> getCommandResult() {
         List<String> commandResult = new ArrayList<>();
         String readMessage;
-        boolean commandStartResult = false;
 
-        for (int i = 0; i < 3; i++) {
-
-            while(!messages.isEmpty()) {
-                readMessage = messages.remove();
-                if (!commandStartResult && readMessage.contains(command)) {
-                    commandStartResult = true;
-                }
-                if (commandStartResult) {
-                    commandResult.add(readMessage);
-                }
-                if (readMessage.contains(successResult)) {
-                    return commandResult;
-                }
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        while(!messages.isEmpty()) {
+            readMessage = messages.remove();
+            commandResult.add(readMessage);
         }
         return commandResult;
-    }
-
-    public void clearMessage() {
-        messages.clear();
     }
 
     private void read() {
@@ -160,7 +144,6 @@ public class PucClient implements AccessnetTelnetClient {
             try {
                 while (((readString = reader.readLine()) != null)) {
                     messages.add(readString);
-                    System.out.println(readString);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
